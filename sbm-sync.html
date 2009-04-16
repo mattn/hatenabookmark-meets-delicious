@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>{{ hatena_user }} plagger</title>
 <style type="text/css">
-* { font-family: 'メイリオ' }
+* { font-family: 'Vernada' }
 a:visited, a:active { color: blue }
 h1 { background: #5577ff; padding: 2px }
 .bookmarks { margin: 1em }
@@ -27,8 +27,8 @@ $(function() {
 <body>
 	<h1>{{ hatena_user }} plagger</h1>
 	<div id="content">
-		<h2>最近ポストしたブックマーク</h2>
-		<p>最終更新日時: {{ updated }} {{ timezone }}</p>
+		<h2>Recent Bookmakrs</h2>
+		<p>Last Update: {{ updated }} {{ timezone }}</p>
 		<div class="bookmarks">
 		{% for bookmark in recent %}
 		<a class="link" href="{{ bookmark.url|escape }}">{{ bookmark.description|escape }}</a><br />
@@ -42,6 +42,6 @@ $(function() {
 		{% endfor %}
 		</div>
 		<br />
-		※<a href="http://b.hatena.ne.jp/{{ hatena_user }}">はてなブックマーク</a>から<a href="http://delicious.com/{{ delicious_user }}">delicious</a>に自動でポストされています。
+		Posting feed of <a href="http://b.hatena.ne.jp/{{ hatena_user }}">Hatena Bookmark</a> to <a href="http://delicious.com/{{ delicious_user }}">delicious</a>.
 	</div>
 </body>
