@@ -1,0 +1,19 @@
+application: your_app_name
+version: 2
+runtime: python
+api_version: 1
+
+handlers:
+  - url: /tasks/sbm-sync
+    script: sbm-sync.py
+
+  - url: /
+    script: sbm-sync.py
+
+  - url: /favicon.ico
+    static_files: static/images/favicon.ico
+    upload: static/images/favicon.ico
+    mime_type: image/x-icon
+
+  - url: /static
+    static_dir: static

@@ -1,0 +1,47 @@
+<!doctype html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>{{ hatena_user }} plagger</title>
+<style type="text/css">
+* { font-family: 'メイリオ' }
+a:visited, a:active { color: blue }
+h1 { background: #5577ff; padding: 2px }
+.bookmarks { margin: 1em }
+.tags { color: green }
+</style>
+<script type="text/javascript" src="static/jquery-latest.js"></script>
+<script type="text/javascript">
+$(function() {
+	$('.link').each(function() {
+		var link = this;
+    	var dir = this.href.split('/').splice(0, 3).join('/');
+		$('<img/>').attr({
+			width: 16,
+			height: 16,
+			src: dir + '/favicon.ico',
+		}).hide().one('load', function() { $(this).show().prependTo(link) });
+	});
+});
+</script>
+</head>
+<body>
+	<h1>{{ hatena_user }} plagger</h1>
+	<div id="content">
+		<h2>最近ポストしたブックマーク</h2>
+		<p>最終更新日時: {{ updated }} {{ timezone }}</p>
+		<div class="bookmarks">
+		{% for bookmark in recent %}
+		<a class="link" href="{{ bookmark.url|escape }}">{{ bookmark.description|escape }}</a><br />
+		{% if bookmark.extended or bookmark.tags %}
+		<blockquote>
+			<img class="icon" src="{{ hatena_icon }}"/>
+			<span class="tags">{{ bookmark.tags|escape }}</span>
+			<span class="comment">{{ bookmark.extended|escape }}</span>
+		</blockquote>
+		{% endif %}
+		{% endfor %}
+		</div>
+		<br />
+		※<a href="http://b.hatena.ne.jp/{{ hatena_user }}">はてなブックマーク</a>から<a href="http://delicious.com/{{ delicious_user }}">delicious</a>に自動でポストされています。
+	</div>
+</body>

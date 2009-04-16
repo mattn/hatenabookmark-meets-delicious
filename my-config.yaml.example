@@ -1,0 +1,5 @@
+hatena_user : your_hatena_user
+delicious_user : your_delicious_user
+delicious_pass : your_delicious_password
+timezone: JST
+timeoffset: 9

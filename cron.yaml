@@ -1,0 +1,4 @@
+cron:  
+- description: sbm sync
+  url: /tasks/sbm-sync  
+  schedule: every 10 minutes  
