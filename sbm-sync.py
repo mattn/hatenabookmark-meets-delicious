@@ -59,16 +59,26 @@ class BookmarkSync(webapp.RequestHandler):
 
 class MainPage(webapp.RequestHandler):
   def get(self):
-    config = yaml.safe_load(open(os.path.join(os.path.dirname(__file__), 'plagger-config.yaml'), 'r'))
+    config = yaml.safe_load(open(os.path.join(os.path.dirname(__file__), 'my-config.yaml'), 'r'))
     recent = Bookmark.all().order('-timestamp').fetch(10)
-    template_values = {
-      'recent' : recent,
-      'delicious_user' : config['delicious_user'],
-      'hatena_user' : config['hatena_user'],
-      'hatena_icon' : 'http://www.hatena.ne.jp/users/%s/%s/profile_s.gif' % (config['hatena_user'][0:2], config['hatena_user']),
-      'timezone' : config['timezone'],
-      'updated' : recent[0].timestamp + datetime.timedelta(hours=int(config['timeoffset'])),
-    }
+    if len(recent):
+        template_values = {
+          'recent' : recent,
+          'delicious_user' : config['delicious_user'],
+          'hatena_user' : config['hatena_user'],
+          'hatena_icon' : 'http://www.hatena.ne.jp/users/%s/%s/profile_s.gif' % (config['hatena_user'][0:2], config['hatena_user']),
+          'timezone' : config['timezone'],
+          'updated' : recent[0].timestamp + datetime.timedelta(hours=int(config['timeoffset'])),
+        }
+    else:
+        template_values = {
+          'recent' : None,
+          'delicious_user' : config['delicious_user'],
+          'hatena_user' : config['hatena_user'],
+          'hatena_icon' : 'http://www.hatena.ne.jp/users/%s/%s/profile_s.gif' % (config['hatena_user'][0:2], config['hatena_user']),
+          'timezone' : config['timezone'],
+          'updated' : ''
+        }
     path = os.path.join(os.path.dirname(__file__), 'sbm-sync.html')
     self.response.out.write(template.render(path, template_values))
 
