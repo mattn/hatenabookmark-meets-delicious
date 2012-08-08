@@ -44,7 +44,9 @@ class BookmarkSync(webapp.RequestHandler):
         uri = 'https://api.del.icio.us/v1/posts/add?' + urllib.urlencode({ 'url' : url, 'description' : description, 'extended' : extended, 'tags' : tags })
         try:
           auth = base64.b64encode('%s:%s' % (config['delicious_user'], config['delicious_pass'])).strip("\n")
-          res = urlfetch.fetch(uri, headers={ 'Authorization' : 'Basic %s' % auth }).status_code
+          code = urlfetch.fetch(uri, headers={ 'Authorization' : 'Basic %s' % auth }).status_code
+          if code < 200 or code >= 300:
+            raise Exception('urlfetch.fetch() returned error status code. (%s)' % code)
           Bookmark(url = url.decode('utf-8'), description = description.replace("\n", '').decode('utf-8'), extended = extended.decode('utf-8'), tags = tags.decode('utf-8')).put()
           logging.info('posted:' + url)
         except Exception, e:
