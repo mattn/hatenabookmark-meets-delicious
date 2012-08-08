@@ -40,7 +40,7 @@ class BookmarkSync(webapp.RequestHandler):
         logging.info('posting:' + url)
         description = entry.find('{http://purl.org/rss/1.0/}title').text or ''
         extended = entry.find('{http://purl.org/rss/1.0/}description').text or ''
-        tags = ' '.join([x.text for x in entry.findall('{http://purl.org/dc/elements/1.1/}subject')]) or ''
+        tags = ','.join([x.text for x in entry.findall('{http://purl.org/dc/elements/1.1/}subject')]) or ''
         uri = 'https://api.del.icio.us/v1/posts/add?' + urllib.urlencode({ 'url' : url, 'description' : description, 'extended' : extended, 'tags' : tags })
         try:
           auth = base64.b64encode('%s:%s' % (config['delicious_user'], config['delicious_pass'])).strip("\n")
